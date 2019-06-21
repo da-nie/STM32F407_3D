@@ -1,0 +1,28 @@
+--cpu Cortex-M4.fp
+"3ddemo\stm32f4xx_hal_tim.o"
+"3ddemo\stm32f4xx_hal_spi.o"
+"3ddemo\stm32f4xx_hal_pwr.o"
+"3ddemo\stm32f4xx_hal_rcc.o"
+"3ddemo\stm32f4xx_hal_pwr_ex.o"
+"3ddemo\stm32f4xx_hal_dma_ex.o"
+"3ddemo\stm32f4xx_hal_dma.o"
+"3ddemo\stm32f4xx_hal_gpio.o"
+"3ddemo\stm32f4xx_hal_cortex.o"
+"3ddemo\stm32f4xx_hal.o"
+"3ddemo\stm32f4xx_hal_tim_ex.o"
+"3ddemo\stm32f4xx_hal_rcc_ex.o"
+"3ddemo\stm32f4xx_hal_flash.o"
+"3ddemo\stm32f4xx_hal_flash_ramfunc.o"
+"3ddemo\stm32f4xx_hal_flash_ex.o"
+"3ddemo\startup_stm32f407xx.o"
+"3ddemo\main.o"
+"3ddemo\stm32f4xx_it.o"
+"3ddemo\stm32f4xx_hal_msp.o"
+"3ddemo\il9325.o"
+"3ddemo\sgl.o"
+"3ddemo\system_stm32f4xx.o"
+--library_type=microlib --nodebug --strict --scatter "3ddemo\3ddemo.sct"
+
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "3ddemo.map" -o 3ddemo\3ddemo.axf
