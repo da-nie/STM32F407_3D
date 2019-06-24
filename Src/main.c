@@ -1,7 +1,7 @@
 #include "main.h"
 #include "stm32f4xx_hal.h"
 #include "il9325.h"
-#include "sgl.h"
+#include "csgl.h"
 #include <math.h>
 
 void RCC_Init(void);
@@ -230,7 +230,9 @@ void Octahedron(CSGL &cSGL,float height)
   cSGL.Color3i(255,255,255);
   cSGL.Begin();
    cSGL.Vertex3f(x3,y3,z3);
+	 cSGL.Color3i(255,0,255);
    cSGL.Vertex3f(x5,y5,z5);
+	 cSGL.Color3i(0,255,0);
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -340,10 +342,7 @@ int main(void)
  }
  while(1);
  */
-	
-	
-	
-	
+		
  const int width=160;
  const int height=120;	
 	
@@ -373,7 +372,7 @@ int main(void)
   //отображаем на экране  
   IL9325_SetWindow(0,0,IL9325_WIDTH-1,IL9325_HEIGHT-1); 
 
- unsigned short *raw14_local_ptr=cSGL.ImageMap;
+ unsigned short *raw14_local_ptr=(unsigned short *)cSGL.ImageMap;
   
  for(int y=0;y<IL9325_HEIGHT/2;y++,raw14_local_ptr++)//0...319
  {

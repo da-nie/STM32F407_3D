@@ -517,11 +517,6 @@
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
             <File>
-              <FileName>sgl.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\sgl.h</FilePath>
-            </File>
-            <File>
               <FileName>il9325.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\il9325.c</FilePath>
@@ -532,9 +527,14 @@
               <FilePath>..\Src\il9325.h</FilePath>
             </File>
             <File>
-              <FileName>sgl.cpp</FileName>
+              <FileName>csgl.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\Src\sgl.cpp</FilePath>
+              <FilePath>..\Src\csgl.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>csgl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\csgl.h</FilePath>
             </File>
           </Files>
         </Group>

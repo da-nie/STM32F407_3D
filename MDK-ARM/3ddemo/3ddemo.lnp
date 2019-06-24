@@ -19,7 +19,7 @@
 "3ddemo\stm32f4xx_it.o"
 "3ddemo\stm32f4xx_hal_msp.o"
 "3ddemo\il9325.o"
-"3ddemo\sgl.o"
+"3ddemo\csgl.o"
 "3ddemo\system_stm32f4xx.o"
 --library_type=microlib --nodebug --strict --scatter "3ddemo\3ddemo.sct"
 
