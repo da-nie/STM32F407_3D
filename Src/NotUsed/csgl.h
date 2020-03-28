@@ -39,10 +39,9 @@ struct SGuColor
 struct SGuScreenColor
 {
  uint16_t Color;
- /*uint8_t r;
- uint8_t g;	
- uint8_t b;	
-	*/
+// uint8_t r;
+// uint8_t g;	
+// uint8_t b;	
 };
 //точка с текстурой, цветом, нормалью, координатами
 struct SGuNVCTPoint
@@ -117,10 +116,7 @@ class CSGL
   uint16_t PointArrayAmount;//размер данных в списке
   MATRIX_MODE CurrentSelectedMatrix;//текущая выбранная матрица
   bool DrawModeActive;//true-была выполнена команда Begin
-  SGuVector4 FrustumPlane[5];//пять плоскостей отсечения (каждая четверка чисел описывает плоскость: ax+by+cz+d=0)
-
-  static const int32_t MIN_INV_Z_VALUE=0;//минимальное значение 1/Z
-
+  SGuVector4 FrustumPlane[4];//четыре плоскости отсечения (каждая четверка чисел описывает плоскость: ax+by+cz+d=0)
   //-Функции класса----------------------------------------------------------
   //-Прочее------------------------------------------------------------------
  public:
@@ -130,7 +126,7 @@ class CSGL
   ~CSGL();
   //-Переменные класса-------------------------------------------------------
   SGuScreenColor* ImageMap;
-  float *InvZBuffer;//буфер 1/z
+  float *ZBuffer;
   int32_t ScreenWidth;
   int32_t ScreenHeight;
   SGuTexture CurrentTexture;//текущие текструрные координаты
@@ -190,5 +186,5 @@ class CSGL
 	//-Прочее------------------------------------------------------------------
 };
 
-
 #endif
+

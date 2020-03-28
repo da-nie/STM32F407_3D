@@ -18,8 +18,12 @@
 "3ddemo\main.o"
 "3ddemo\stm32f4xx_it.o"
 "3ddemo\stm32f4xx_hal_msp.o"
-"3ddemo\il9325.o"
 "3ddemo\csgl.o"
+"3ddemo\cdisplayhx8347d.o"
+"3ddemo\cdisplayil9325.o"
+"3ddemo\cdisplayspfd5408.o"
+"3ddemo\idisplay.o"
+"3ddemo\cdisplaybased.o"
 "3ddemo\system_stm32f4xx.o"
 --library_type=microlib --nodebug --strict --scatter "3ddemo\3ddemo.sct"
 

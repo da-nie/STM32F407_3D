@@ -1,6 +1,8 @@
 #include "main.h"
 #include "stm32f4xx_hal.h"
-#include "il9325.h"
+#include "cdisplayhx8347d.h"
+//#include "cdisplayspfd5408.h"
+
 #include "csgl.h"
 #include <math.h>
 
@@ -229,10 +231,13 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x5-x1,y5-y1,z5-z1);
   cSGL.Color3i(255,255,255);
   cSGL.Begin();
+   cSGL.TexCoord(0,0);
    cSGL.Vertex3f(x3,y3,z3);
 	 cSGL.Color3i(255,0,255);
+	 cSGL.TexCoord(1,0);
    cSGL.Vertex3f(x5,y5,z5);
 	 cSGL.Color3i(0,255,0);
+	 cSGL.TexCoord(0,1);
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -242,8 +247,11 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x4-x1,y4-y1,z4-z1);
   cSGL.Color3i(255,255,0);
   cSGL.Begin();
+   cSGL.TexCoord(0,0);	
    cSGL.Vertex3f(x5,y5,z5);
+	 cSGL.TexCoord(0,1);
    cSGL.Vertex3f(x4,y4,z4);
+   cSGL.TexCoord(1,0);	 
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -253,8 +261,11 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x6-x1,y6-y1,z6-z1);
   cSGL.Color3i(255,0,255);
   cSGL.Begin();
+   cSGL.TexCoord(0,0);	
    cSGL.Vertex3f(x4,y4,z4);
+   cSGL.TexCoord(1,1);	 
    cSGL.Vertex3f(x6,y6,z6);
+   cSGL.TexCoord(0,1);	 
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -275,8 +286,11 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x5-x2,y5-y2,z5-z2);
   cSGL.Color3i(255,0,0);
   cSGL.Begin();
+   cSGL.TexCoord(1,1);	
    cSGL.Vertex3f(x4,y4,z4);
+   cSGL.TexCoord(0,0);	 
    cSGL.Vertex3f(x5,y5,z5);
+   cSGL.TexCoord(1,0);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -286,8 +300,11 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x4-x2,y4-y2,z4-z2);
   cSGL.Color3i(0,255,0);
   cSGL.Begin();
+   cSGL.TexCoord(0,0);	
    cSGL.Vertex3f(x6,y6,z6);
+   cSGL.TexCoord(0,1);	 
    cSGL.Vertex3f(x4,y4,z4);
+   cSGL.TexCoord(1,0);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -297,8 +314,11 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x6-x2,y6-y2,z6-z2);
   cSGL.Color3i(0,0,255);
   cSGL.Begin();
+   cSGL.TexCoord(0,0);	
    cSGL.Vertex3f(x3,y3,z3);
+   cSGL.TexCoord(0,1);	 
    cSGL.Vertex3f(x6,y6,z6);
+   cSGL.TexCoord(1,1);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -308,17 +328,22 @@ void Octahedron(CSGL &cSGL,float height)
   VectorProduct(&nx,&ny,&nz,x3-x2,y3-y2,z3-z2);
   cSGL.Color3i(127,127,255);
   cSGL.Begin();
+   cSGL.TexCoord(0,0);	
    cSGL.Vertex3f(x5,y5,z5);
+   cSGL.TexCoord(0,1);	 
    cSGL.Vertex3f(x3,y3,z3);
+   cSGL.TexCoord(1,0);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
 }
 
- CSGL cSGL;
+CSGL cSGL;
+CDisplayHX8347D cDisplayHX8347D;
+//CDisplaySPFD5408 cDisplaySPFD5408;
+IDisplay *iDisplay_Ptr=&cDisplayHX8347D;
 
 #include <stdlib.h>
-
 
 //----------------------------------------------------------------------------------------------------
 //главная функция программы
@@ -329,8 +354,8 @@ int main(void)
  RCC_Init();
  GPIO_Init();
  SPI_Init();
- IL9325_Init();
- IL9325_Clear();
+ iDisplay_Ptr->Init();
+ iDisplay_Ptr->Clear(IDisplay::COLOR_BLACK);
 	/*
  char str[20];
 	
@@ -338,7 +363,7 @@ int main(void)
  {
  if (new char[size]==NULL) continue; 	
 	sprintf(str,"%i",size);
-	IL9325_Print(str,IL9325_YELLOW);	 
+	SPFD5408_Print(str,SPFD5408_YELLOW);	 
  }
  while(1);
  */
@@ -356,6 +381,7 @@ int main(void)
  {	 
   //рисуем	 
   cSGL.Clear(SGL_COLOR_BUFFER_BIT|SGL_DEPTH_BUFFER_BIT);
+  uint32_t begin=HAL_GetTick();
   cSGL.Enable(SGL_DEPTH_TEST);
   cSGL.MatrixMode(SGL_MATRIX_MODELVIEW);
   cSGL.LoadIdentity();
@@ -364,35 +390,45 @@ int main(void)
   cSGL.Translatef(0,-5,0);
   //нарисуем фигуру
   Octahedron(cSGL,10);
+	 
 	angle+=5.0f;
 	dist+=d_dist;
 	if (dist<0) d_dist=-d_dist;
 	if (dist>5) d_dist=-d_dist;
-  if (angle>=360.0f) angle-=360.0f;
-  //отображаем на экране  
-  IL9325_SetWindow(0,0,IL9325_WIDTH-1,IL9325_HEIGHT-1); 
+  if (angle>=360.0f) angle-=360.0f;	 
+  //отображаем на экране  	 
+	 iDisplay_Ptr->SetWindow(0,0,IDisplay::DISPLAY_WIDTH-1,IDisplay::DISPLAY_HEIGHT-1); 
+	uint32_t end=HAL_GetTick();
 
- unsigned short *raw14_local_ptr=(unsigned short *)cSGL.ImageMap;
+  uint16_t *raw14_local_ptr=(uint16_t *)cSGL.ImageMap;
   
- for(int y=0;y<IL9325_HEIGHT/2;y++,raw14_local_ptr++)//0...319
+ for(int16_t y=0;y<(IDisplay::DISPLAY_HEIGHT>>1);y++,raw14_local_ptr++)//0...319
  {
-  for(long n=0;n<2;n++)
+  for(int16_t n=0;n<2;n++)
   {	 
-   unsigned short *raw14_color_ptr=raw14_local_ptr+width*(IL9325_WIDTH/2-1);
-   for(int x=0;x<IL9325_WIDTH/2;x++,raw14_color_ptr-=width)//0..239
+   uint16_t *raw14_color_ptr=raw14_local_ptr+width*(IDisplay::DISPLAY_WIDTH/2-1);
+   for(int16_t x=0;x<(IDisplay::DISPLAY_WIDTH>>1);x++,raw14_color_ptr-=width)//0..239
    {
- 	  IL9325_Write16(*raw14_color_ptr);
-		IL9325_Write16(*raw14_color_ptr);
+    iDisplay_Ptr->OutColor(*raw14_color_ptr);
+    iDisplay_Ptr->OutColor(*raw14_color_ptr);
    }
   }
  }
+ 
+	float frame=0;
+  if (end!=begin) frame=1000.0f/(end-begin);
 	 
+	char str[30];
+  sprintf(str,"%.1f",frame);	 	
+ 
+	
+ iDisplay_Ptr->PutString(0,0,str,IDisplay::COLOR_YELLOW);
 	 /*
   //идем по экрану
   unsigned short *raw_local_ptr=(unsigned short*)cSGL.ImageMap;
 	if (raw_local_ptr==NULL)
 	{
-	 IL9325_Print("No memory!",IL9325_YELLOW);
+	 SPFD5408_Print("No memory!",SPFD5408_YELLOW);
 	 continue;
 	}
 	 
@@ -401,7 +437,7 @@ int main(void)
    unsigned short *raw_color_ptr=raw_local_ptr;
    for(int x=0;x<width;x++,raw_color_ptr++)
    {
- 	  IL9325_Write16(*raw_color_ptr);
+ 	  SPFD5408_Write16(*raw_color_ptr);
    }
   }	 
 	*/

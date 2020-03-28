@@ -3,17 +3,8 @@
 
 #include "stm32f4xx_hal.h"
 
-#ifndef bool 
-#define bool unsigned char
-#endif
-
-#ifndef true
-#define true 1
-#endif
-
-#ifndef false
-#define false 0
-#endif
+#include <stdbool.h>
+#include <stdint.h>
 
 //цвета
 #define HX8347D_BLACK     0x0000
@@ -27,10 +18,8 @@
 #define HX8347D_VIOLET    0x881F
 #define HX8347D_WHITE     0xFFFF
 
-
 #define HX8347D_WIDTH 240UL
 #define HX8347D_HEIGHT 320UL
-
 
 //----------------------------------------------------------------------------------------------------
 //прототипы функций

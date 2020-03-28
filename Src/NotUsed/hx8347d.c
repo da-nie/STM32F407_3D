@@ -266,7 +266,6 @@ const unsigned short HX8347D_InitList[]=
 void HX8347D_Init(void)
 {
  //настраиваем порты
-
  __HAL_RCC_GPIOD_CLK_ENABLE();
  __HAL_RCC_GPIOE_CLK_ENABLE();
 	
@@ -514,7 +513,7 @@ inline void HX8347D_WriteRegister16(unsigned short reg,unsigned short value)
 //----------------------------------------------------------------------------------------------------
 //задать окно
 //----------------------------------------------------------------------------------------------------
-inline void HX8347D_SetWindow(unsigned short x_left,unsigned short y_top,unsigned short x_right,unsigned short y_bottom)
+void HX8347D_SetWindow(unsigned short x_left,unsigned short y_top,unsigned short x_right,unsigned short y_bottom)
 {
  HX8347D_WriteRegister16(0x002,(x_left>>8)&0xFF);
  HX8347D_WriteRegister16(0x003,(x_left)&0xFF);
