@@ -1,194 +1,196 @@
-#ifndef SGL_H
-#define SGL_H
+#ifndef C_SGL_H
+#define C_SGL_H
 
+//****************************************************************************************************
+//класс программной растеризации
+//****************************************************************************************************
+
+//****************************************************************************************************
+//подключаемые библиотеки
+//****************************************************************************************************
 #include <stdint.h>
+#include <stdio.h>
+#include "sglmatrix.h"
+#include "cglscreencolor.h"
 
-#ifndef M_PI
-#define M_PI 3.1415926535897932384626433832795
-#endif
+//****************************************************************************************************
+//макроопределения
+//****************************************************************************************************
+
+//****************************************************************************************************
+//константы
+//****************************************************************************************************
+
+//****************************************************************************************************
+//предварительные объявления
+//****************************************************************************************************
 
 #pragma pack(1)
-//координата точки
-struct SGuVertex
+//цвет точки RGBA в целых числах
+struct SGLRGBAByteColor
 {
- float x;
- float y;
- float z;
+ uint8_t R;
+ uint8_t G;
+ uint8_t B;
+ uint8_t A;
 };
-//нормаль к точке
-struct SGuNormal
-{
- float nx;
- float ny;
- float nz;
-};
-//текстурные координаты
-struct SGuTexture
-{
- float u;
- float v;
-};
-//цвет точки
-struct SGuColor
-{
- uint8_t r;
- uint8_t g;	
- uint8_t b;	
-};
-//цвет точки экранного буфера
-struct SGuScreenColor
-{
- uint16_t Color;
- /*uint8_t r;
- uint8_t g;	
- uint8_t b;	
-	*/
-};
-//точка с текстурой, цветом, нормалью, координатами
-struct SGuNVCTPoint
-{
- SGuTexture sGuTexture;
- SGuColor sGuColor;
- SGuNormal sGuNormal;
- SGuVertex sGuVertex;
-};
-struct SGuScreenPoint
-{
- int32_t x;
- int32_t y;
-};
-//вектор 4
-struct SGuVector4
-{
- float x;
- float y;
- float z;
- float w;
-};
-//вектор 3
-struct SGuVector3
-{
- float x;
- float y;
- float z;
-};
-//матрица 4x4
-struct SGuMatrix4
-{
- SGuVector4 x;
- SGuVector4	y;
- SGuVector4 z;
- SGuVector4 w;
-};
-//матрица 3x3
-struct SGuMatrix3
-{
- SGuVector3 x;
- SGuVector3	y;
- SGuVector3 z;
-};
-
 #pragma pack()
 
 
-
-#define SGL_MATRIX_PROJECTION 100
-#define SGL_MATRIX_MODELVIEW  101
-
-#define SGL_COLOR_BUFFER_BIT  1
-#define SGL_DEPTH_BUFFER_BIT  2 
-
-#define SGL_DEPTH_TEST		  1
-
+//****************************************************************************************************
+//класс программной растеризации
+//****************************************************************************************************
 class CSGL
-{	
- private:
+{
+ public:
+  //-перечисления---------------------------------------------------------------------------------------
+  //варианты выбора матриц
   enum MATRIX_MODE
   {
-   MATRIX_MODE_MODEL_VIEW,
-   MATRIX_MODE_PROJECTION
-  }; 
-  //-Переменные класса-------------------------------------------------------
-  SGuMatrix4 ProjectionMatrix;//матрица проектирования
-  SGuMatrix4 ModelViewMatrix;//матрица моделирования
-  SGuVector4 ViewPort;//вектор видового порта
-	
-  SGuNVCTPoint sGuNVCTPointArray[3];//список хранимых вершин
-  uint16_t PointArrayAmount;//размер данных в списке
-  MATRIX_MODE CurrentSelectedMatrix;//текущая выбранная матрица
-  bool DrawModeActive;//true-была выполнена команда Begin
-  SGuVector4 FrustumPlane[5];//пять плоскостей отсечения (каждая четверка чисел описывает плоскость: ax+by+cz+d=0)
-
-  static const int32_t MIN_INV_Z_VALUE=0;//минимальное значение 1/Z
-
-  //-Функции класса----------------------------------------------------------
-  //-Прочее------------------------------------------------------------------
+   SGL_MATRIX_MODELVIEW,//выбрана матрица моделирования
+   SGL_MATRIX_PROJECTION,//выбрана матрица проектирования
+   SGL_MATRIX_TEXTURE//выбрана матрица текстурирования
+  };
+  //варианты очистки
+  enum CLEAR_MODE
+  {
+   SGL_COLOR_BUFFER_BIT=(1<<0),
+   SGL_DEPTH_BUFFER_BIT=(1<<1)
+  };
+  //-константы------------------------------------------------------------------------------------------
+  static const uint8_t MAX_COLOR_VALUE=255;//максимальное значение цвета
  public:
-  //-Конструктор класса------------------------------------------------------
-  CSGL(void);
-  //-Деструктор класса-------------------------------------------------------
-  ~CSGL();
-  //-Переменные класса-------------------------------------------------------
-  SGuScreenColor* ImageMap;
+  //-структуры------------------------------------------------------------------------------------------
+  //координата точки
+  struct SGLVertex
+  {
+   float X;
+   float Y;
+   float Z;
+  };
+  //нормаль к точке
+  struct SGLNormal
+  {
+   float Nx;
+   float Ny;
+   float Nz;
+  };
+  //текстурные координаты
+  struct SGLTexture
+  {
+   float U;
+   float V;
+  };
+  //цвет точки
+  struct SGLColor
+  {
+   float R;
+   float G;
+   float B;
+  };
+  //точка с текстурой, цветом, нормалью, координатами
+  struct SGLNVCTPoint
+  {
+   SGLTexture sGLTexture;
+   SGLColor sGLColor;
+   SGLNormal sGLNormal;
+   SGLVertex sGLVertex;
+  };
+  //точка на экране
+  struct SGLScreenPoint
+  {
+   int32_t X;
+   int32_t Y;
+  };
+  //точка с текстурой и цветом
+  struct SGLNCTPoint
+  {
+   SGLTexture sGLTexture;
+   SGLColor sGLColor;
+  };
+ private:
+  struct SGLTextureObject
+  {
+   uint32_t Width;//ширина
+   uint32_t Height;//высота
+   SGLRGBAByteColor *sGLRGBAByteColor_Ptr;//данные текстуры
+  };
+ private:
+  //-константы------------------------------------------------------------------------------------------
+  static const uint32_t VERTEX_POINT_ARRAY=3;//размер буфера вершин
+  static const uint32_t FRUSTRUM_PLANE=6;//количество плоскостей отсечения
+  static const int32_t MIN_INV_Z_VALUE=0;//минимальное значение 1/Z
+ private:
+  //-переменные-----------------------------------------------------------------------------------------
+  SGLMatrix4 ProjectionMatrix;//матрица проектирования
+  SGLMatrix4 ModelViewMatrix;//матрица моделирования
+  SGLMatrix4 TextureMatrix;//матрица текстурирования
+  SGLVector4 ViewPort;//вектор видового порта
+  SGLNVCTPoint sGLNVCTPointArray[VERTEX_POINT_ARRAY];//список хранимых вершин
+  size_t PointArrayAmount;//размер данных в списке хранимых вершин
+  SGLVector4 FrustumPlane[FRUSTRUM_PLANE];//набор плоскостей отсечения (каждая четверка чисел описывает плоскость: ax+by+cz+d=0)
+  SGLNVCTPoint sGLNVCTPoint_Current;//параметры текущей точки
+  SGLColor sGLColor_Clear;//цвет очистки фона
+
+  SGLMatrix4 *sGLMatrix4_Ptr;//указатель на матрицу, с которой производится работа
+
+  bool DrawMode;//включён ли режим рисования
+
+  SGLTextureObject sGLTextureObject_Current;//текущая текстура
+
+  typedef void(CSGL::*draw_line_ptr_t)(int32_t y,int32_t x1,int32_t x2,float z1,float z2,float r1,float r2,float g1,float g2,float b1,float b2,float u1,float u2,float v1,float v2);//тип указателя на функцию отрисовки горизонтальной линии
+
+  draw_line_ptr_t DrawLineFunction_Ptr;//указатель на функцию отрисовки линии
+ public:
+  CGLScreenColor* ImageMap;
+  uint32_t ScreenWidth;//размеры экрана
+  uint32_t ScreenHeight;
   float *InvZBuffer;//буфер 1/z
-  int32_t ScreenWidth;
-  int32_t ScreenHeight;
-  SGuTexture CurrentTexture;//текущие текструрные координаты
- 
-  //цвета
-  SGuColor CurrentColor;//текущий цвет
-  //char CurrentR;//текущий
-  //char CurrentG;
-  //char CurrentB;
-  //параметры
-  bool EnableDepthText;
-  //-Функции класса----------------------------------------------------------
-  bool Create(int screen_width,int screen_height);
-  //функции работы с матрицами
-  bool LoadIdentity(void);
-  bool Frustrum(float left,float right,float bottom,float top,float near,float far);
-  bool SetViewport(float x,float y,float len,float hgt);
-  bool Perspective(float fovy,float aspect,float near,float far);
-  bool Rotatef(float angle,float nx,float ny,float nz);
-  bool Translatef(float nx,float ny,float nz);
-  bool MatrixMode(int matrix);
-  //функции задания цвета
-  bool Color3i(unsigned char r,unsigned char g,unsigned char b);
-  //функции рисования примитивов
-  bool Begin(void);
-  bool End(void);
-	bool TexCoord(float u,float v);
-  bool Vertex3f(float x,float y,float z);
-  //функции очистки экранных массивов
-  bool Clear(unsigned int mode);
-  //функции включения/выключения режимов
-  bool Enable(unsigned int mode);
-  bool Disable(unsigned int mode);	
-	
-  void SetVertexCoord(SGuVertex &sGuVertex,float x,float y,float z);//задать координаты вершины
-  void SetNormalCoord(SGuNormal &sGuNormal,float nx,float ny,float nz);//задать координаты нормали
-  void SetTextureCoord(SGuTexture &sGuTexture,float u,float v);//задать координаты текстуры
-  void SetColorValue(SGuColor &sGuColor,uint8_t r,uint8_t g,uint8_t b);//задать цвет
-  void MultiplySGuVector4ToSGuMatrix4(const SGuVector4& v,const SGuMatrix4& m,SGuVector4& v_out);//умножение вектора типа SGuVector4 на матрицу типа SGuMatrix4
-  void MultiplySGuMatrix4ToSGuVector4(const SGuMatrix4& m,const SGuVector4& v,SGuVector4& v_out);//умножение матрицы типа SGuMatrix4 на вектор типа SGuVector4
-  void MultiplySGuMatrix4(const SGuMatrix4& a,const SGuMatrix4& b,SGuMatrix4& out);//умножение двух матриц типа SGuMatrix4
-  void NormaliseSGuVector4(SGuVector4& v);//нормирование вектора типа SGuMatrix4
-  double GetDeterminantSGuMatrix4(const SGuMatrix4& matrix);//вычислить определитель матрицы типа SGuMatrix4
-  double GetDeterminantSGuMatrix3(const SGuMatrix3& matrix);//вычислить определитель матрицы типа SGuMatrix3
-  void GetTruncatedMatrixSGuMatrix4(long y,long x,const SGuMatrix4& input_matrix,SGuMatrix3& output_matrix);//вычислить матрицу с исключённой строкой и столбцом по координатам y и x для матрицы типа SGuMatrix4	
-  bool CreateInvertMatrixSGuMatrix4(const SGuMatrix4& input_matrix,SGuMatrix4& output_matrix);//вычислить обратную матрицу для матрицы типа SGuMatrix4
-  void CreateFrustrumPlane(void);//вычислить плоскости отсечения	
-  void GetIntersectionPlaneAndLine(const SGuNVCTPoint& A,const SGuNVCTPoint& B,SGuNVCTPoint& new_point,float nx,float ny,float nz,float w);//получить точку пересечения прямой и плоскости
-  void Clip(const SGuNVCTPoint *point_array_input,uint16_t point_amount_input,SGuNVCTPoint *point_array_output,uint16_t &point_amount_output,float nx,float ny,float nz,float w);//выполнить коррекцию координат  
 
-  void OutputTriangle(SGuNVCTPoint A,SGuNVCTPoint B,SGuNVCTPoint C);//вывести треугольник
-  void DrawTriangle(SGuNVCTPoint A,SGuNVCTPoint B,SGuNVCTPoint C);//отрисовка треугольника
-  void RenderTriangle(SGuNVCTPoint &a,SGuNVCTPoint &b,SGuNVCTPoint &c,SGuScreenPoint &ap,SGuScreenPoint &bp,SGuScreenPoint &cp);//растеризация треугольника на экране
-  void DrawLine(int32_t y,int32_t x1,int32_t x2,float z1,float z2,float r1,float r2,float g1,float g2,float b1,float b2,float u1,float u2,float v1,float v2);//отрисовка линии
+ public:
+  //-конструктор----------------------------------------------------------------------------------------
+  CSGL(void);
+  //-деструктор-----------------------------------------------------------------------------------------
+  ~CSGL();
+ public:
+  //-открытые функции-----------------------------------------------------------------------------------
+  void Init(uint32_t screen_width,uint32_t screen_height);//инициализировать
 
+  void LoadIdentity(void);//сделать матрицу единичной
+  void Rotatef(float angle,float nx,float ny,float nz);//умножить текущую матрицу на матрицу поворота вокруг вектора
+  void Translatef(float nx,float ny,float nz);//умножить текущую матрицу на матрицу смещения
+  void MatrixMode(MATRIX_MODE matrix);//выбрать матрицу
 
-	//-Прочее------------------------------------------------------------------
+  void Frustrum(float left,float right,float bottom,float top,float near,float far);//задать плоскости отсечения в матрицу проецирования
+  void SetViewport(float x,float y,float len,float hgt);//задать видовой порт
+  void Perspective(float fovy,float aspect,float near,float far);//задать матрицу проецирования
+
+  void Color3f(float r,float g,float b);//задать цвет точки
+  void TexCoordf(float u,float v);//задать текстурные координаты точки
+  void Normal3f(float nx,float ny,float nz);//задать нормаль в точке
+  void Vertex3f(float x,float y,float z);//задать координату точки
+  void Begin(void);//начать рисование
+  void End(void);//закончить рисование
+  void ClearColor(float r,float g,float b);//задать цвет очистки фона
+  void Clear(uint32_t mode);//очистить буфер
+  void BindTexture(uint32_t width,uint32_t height,SGLRGBAByteColor *sGLRGBAByteColor_Ptr_Set);//задать текстуру
+
+  //-статические функции--------------------------------------------------------------------------------
+  static void SetVertexCoord(SGLVertex &sGLVertex,float x,float y,float z);//задать координаты вершины
+  static void SetNormalCoord(SGLNormal &sGLNormal,float nx,float ny,float nz);//задать координаты нормали
+  static void SetTextureCoord(SGLTexture &sGLTexture,float u,float v);//задать координаты текстуры
+  static void SetColorValue(SGLColor &sGLColor,float r,float g,float b);//задать цвет
+ private:
+  //-закрытые функции-----------------------------------------------------------------------------------
+  void CreateFrustrumPlane(void);//вычислить плоскости отсечения
+  void GetIntersectionPlaneAndLine(const SGLNVCTPoint& A,const SGLNVCTPoint& B,SGLNVCTPoint& new_point,float nx,float ny,float nz,float w);//получить точку пересечения прямой и плоскости
+  void Clip(const SGLNVCTPoint *point_array_input,uint16_t point_amount_input,SGLNVCTPoint *point_array_output,uint16_t &point_amount_output,float nx,float ny,float nz,float w);//выполнить коррекцию координат
+
+  void OutputTriangle(SGLNVCTPoint A,SGLNVCTPoint B,SGLNVCTPoint C);//вывести треугольник
+  void DrawTriangle(SGLNVCTPoint A,SGLNVCTPoint B,SGLNVCTPoint C);//отрисовка треугольника
+  void RenderTriangle(SGLNVCTPoint &a,SGLNVCTPoint &b,SGLNVCTPoint &c,SGLScreenPoint &ap,SGLScreenPoint &bp,SGLScreenPoint &cp);//растеризация треугольника на экране
+  //void DrawLine(int32_t y,int32_t x1,int32_t x2,float z1,float z2,float r1,float r2,float g1,float g2,float b1,float b2,float u1,float u2,float v1,float v2);//отрисовка текстурированной горизонтальной линии
+  void DrawLine(int32_t y,int32_t x1,int32_t x2,float z1,float z2,const SGLNCTPoint &sGLNCTPoint_1,const SGLNCTPoint &sGLNCTPoint_2);//отрисовка текстурированной горизонтальной линии
 };
-
 
 #endif

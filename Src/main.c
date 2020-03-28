@@ -229,15 +229,15 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y3-y1;
   nz=z3-z1;
   VectorProduct(&nx,&ny,&nz,x5-x1,y5-y1,z5-z1);
-  cSGL.Color3i(255,255,255);
+  cSGL.Color3f(1,1,1);
   cSGL.Begin();
-   cSGL.TexCoord(0,0);
+   cSGL.TexCoordf(0,0);
    cSGL.Vertex3f(x3,y3,z3);
-	 cSGL.Color3i(255,0,255);
-	 cSGL.TexCoord(1,0);
+	 cSGL.Color3f(1,0,1);
+	 cSGL.TexCoordf(1,0);
    cSGL.Vertex3f(x5,y5,z5);
-	 cSGL.Color3i(0,255,0);
-	 cSGL.TexCoord(0,1);
+	 cSGL.Color3f(0,1,0);
+	 cSGL.TexCoordf(0,1);
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -245,13 +245,13 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y5-y1;
   nz=z5-z1;
   VectorProduct(&nx,&ny,&nz,x4-x1,y4-y1,z4-z1);
-  cSGL.Color3i(255,255,0);
+  cSGL.Color3f(1,1,0);
   cSGL.Begin();
-   cSGL.TexCoord(0,0);	
+   cSGL.TexCoordf(0,0);	
    cSGL.Vertex3f(x5,y5,z5);
-	 cSGL.TexCoord(0,1);
+	 cSGL.TexCoordf(0,1);
    cSGL.Vertex3f(x4,y4,z4);
-   cSGL.TexCoord(1,0);	 
+   cSGL.TexCoordf(1,0);	 
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -259,13 +259,13 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y4-y1;
   nz=z4-z1;
   VectorProduct(&nx,&ny,&nz,x6-x1,y6-y1,z6-z1);
-  cSGL.Color3i(255,0,255);
+  cSGL.Color3f(1,0,1);
   cSGL.Begin();
-   cSGL.TexCoord(0,0);	
+   cSGL.TexCoordf(0,0);	
    cSGL.Vertex3f(x4,y4,z4);
-   cSGL.TexCoord(1,1);	 
+   cSGL.TexCoordf(1,1);	 
    cSGL.Vertex3f(x6,y6,z6);
-   cSGL.TexCoord(0,1);	 
+   cSGL.TexCoordf(0,1);	 
    cSGL.Vertex3f(x1,y1,z1);
   cSGL.End();
   //========================================
@@ -273,7 +273,7 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y6-y1;
   nz=z6-z1;
   VectorProduct(&nx,&ny,&nz,x3-x1,y3-y1,z3-z1);
-  cSGL.Color3i(0,255,255);
+  cSGL.Color3f(0,1,1);
   /*cSGL.Begin();
    cSGL.Vertex3f(x6,y6,z6);
    cSGL.Vertex3f(x3,y3,z3);
@@ -284,13 +284,13 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y4-y2;
   nz=z4-z2;
   VectorProduct(&nx,&ny,&nz,x5-x2,y5-y2,z5-z2);
-  cSGL.Color3i(255,0,0);
+  cSGL.Color3f(1,0,0);
   cSGL.Begin();
-   cSGL.TexCoord(1,1);	
+   cSGL.TexCoordf(1,1);	
    cSGL.Vertex3f(x4,y4,z4);
-   cSGL.TexCoord(0,0);	 
+   cSGL.TexCoordf(0,0);	 
    cSGL.Vertex3f(x5,y5,z5);
-   cSGL.TexCoord(1,0);	 
+   cSGL.TexCoordf(1,0);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -298,13 +298,13 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y6-y2;
   nz=z6-z2;
   VectorProduct(&nx,&ny,&nz,x4-x2,y4-y2,z4-z2);
-  cSGL.Color3i(0,255,0);
+  cSGL.Color3f(0,1,0);
   cSGL.Begin();
-   cSGL.TexCoord(0,0);	
+   cSGL.TexCoordf(0,0);	
    cSGL.Vertex3f(x6,y6,z6);
-   cSGL.TexCoord(0,1);	 
+   cSGL.TexCoordf(0,1);	 
    cSGL.Vertex3f(x4,y4,z4);
-   cSGL.TexCoord(1,0);	 
+   cSGL.TexCoordf(1,0);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -312,13 +312,13 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y3-y2;
   nz=z3-z2;
   VectorProduct(&nx,&ny,&nz,x6-x2,y6-y2,z6-z2);
-  cSGL.Color3i(0,0,255);
+  cSGL.Color3f(0,0,1);
   cSGL.Begin();
-   cSGL.TexCoord(0,0);	
+   cSGL.TexCoordf(0,0);	
    cSGL.Vertex3f(x3,y3,z3);
-   cSGL.TexCoord(0,1);	 
+   cSGL.TexCoordf(0,1);	 
    cSGL.Vertex3f(x6,y6,z6);
-   cSGL.TexCoord(1,1);	 
+   cSGL.TexCoordf(1,1);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -326,13 +326,13 @@ void Octahedron(CSGL &cSGL,float height)
   ny=y5-y2;
   nz=z5-z2;
   VectorProduct(&nx,&ny,&nz,x3-x2,y3-y2,z3-z2);
-  cSGL.Color3i(127,127,255);
+  cSGL.Color3f(0.5,0.5,1);
   cSGL.Begin();
-   cSGL.TexCoord(0,0);	
+   cSGL.TexCoordf(0,0);	
    cSGL.Vertex3f(x5,y5,z5);
-   cSGL.TexCoord(0,1);	 
+   cSGL.TexCoordf(0,1);	 
    cSGL.Vertex3f(x3,y3,z3);
-   cSGL.TexCoord(1,0);	 
+   cSGL.TexCoordf(1,0);	 
    cSGL.Vertex3f(x2,y2,z2);
   cSGL.End();
   //========================================
@@ -371,19 +371,46 @@ int main(void)
  const int width=160;
  const int height=120;	
 	
- cSGL.Create(width,height);
+ cSGL.Init(width,height);
  cSGL.Perspective(60,(float)((float)(width)/(float)(height)),1,10000);
  cSGL.SetViewport(0,0,width,height);
  float angle=0;
  float dist=0;
  float d_dist=0.1;
+ 
+ static uint8_t texture[8*8*4];
+ for(uint32_t x=0;x<8;x++)
+ {
+	for(uint32_t y=0;y<8;y++)
+  {
+	 uint8_t r=255;
+	 uint8_t g=255;
+	 uint8_t b=127;
+	 if ((x+y)%2)
+	 {
+    r=127;
+    g=127;
+    b=255;		 
+	 }
+	 uint32_t offset=(x+y*8)*4;
+	 texture[offset+0]=r;
+	 texture[offset+1]=g;
+	 texture[offset+2]=b;
+	 texture[offset+3]=255;		
+  }	
+ }
  while (1)
  {	 
   //рисуем	 
-  cSGL.Clear(SGL_COLOR_BUFFER_BIT|SGL_DEPTH_BUFFER_BIT);
+	cSGL.Clear(CSGL::SGL_COLOR_BUFFER_BIT|CSGL::SGL_DEPTH_BUFFER_BIT);	 
+  cSGL.BindTexture(8,8,reinterpret_cast<SGLRGBAByteColor*>(texture));	 
+	 
   uint32_t begin=HAL_GetTick();
-  cSGL.Enable(SGL_DEPTH_TEST);
-  cSGL.MatrixMode(SGL_MATRIX_MODELVIEW);
+  //cSGL.Enable(CSGL::SGL_DEPTH_TEST);
+  cSGL.MatrixMode(CSGL::SGL_MATRIX_TEXTURE);
+  cSGL.LoadIdentity();
+	 
+  cSGL.MatrixMode(CSGL::SGL_MATRIX_MODELVIEW);
   cSGL.LoadIdentity();
   cSGL.Translatef(0,0,-10-dist);
   cSGL.Rotatef(angle,1,1,0);

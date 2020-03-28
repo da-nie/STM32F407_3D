@@ -24,9 +24,10 @@
 "3ddemo\cdisplayspfd5408.o"
 "3ddemo\idisplay.o"
 "3ddemo\cdisplaybased.o"
+"3ddemo\cglscreencolor.o"
+"3ddemo\sglmatrix.o"
 "3ddemo\system_stm32f4xx.o"
 --library_type=microlib --nodebug --strict --scatter "3ddemo\3ddemo.sct"
-
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "3ddemo.map" -o 3ddemo\3ddemo.axf
