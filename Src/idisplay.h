@@ -59,10 +59,6 @@ class IDisplay
   virtual void SetWindow(uint16_t x_left,uint16_t y_top,uint16_t x_right,uint16_t y_bottom)=0;//задать окно вывода пикселей
   virtual void OutColor(uint16_t color)=0;//передать цвет точки
   virtual void PutPixel(uint16_t x,uint16_t y,uint16_t color)=0;//вывести один пиксель
-  virtual void PutSymbol(int32_t x,int32_t y,char symbol,uint16_t color)=0;//вывод символа в позицию
-  virtual void PutString(int32_t x,int32_t y,const char *string,uint16_t color)=0;//вывод строчки в позицию
-  virtual void Print(const char *string,uint16_t color)=0;//вывести текст в текущую позицию
-  virtual void Clear(uint16_t color)=0;//сбросить текущую позицию и очистить дисплей 
   //-открытые статические функции-----------------------------------------------------------------------
 };
 

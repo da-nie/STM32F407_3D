@@ -560,6 +560,16 @@
               <FileType>8</FileType>
               <FilePath>..\Src\sglmatrix.cpp</FilePath>
             </File>
+            <File>
+              <FileName>cdisplaystandardlibrary.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\cdisplaystandardlibrary.h</FilePath>
+            </File>
+            <File>
+              <FileName>cdisplaystandardlibrary.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Src\cdisplaystandardlibrary.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
